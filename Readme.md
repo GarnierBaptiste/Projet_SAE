@@ -1,0 +1,37 @@
+# Smart Grid Server
+
+## Nom du groupe : DEBEAULIEU Anatole, GARNIER Baptiste
+
+## Partie Required
+
+### Get : /grids List all grid IDs
+
+Renvoie la liste des IDs des éléments de la classe Grid en utilisant la route Get /grids.
+
+Ce que nous renvoie notre fonction :
+
+![Première_image](Annexe/Required_1_Response.png)
+
+Ce que la fonction est censée nous renvoyer :
+
+### Get : /grid/{id} Get grid details
+
+Renvoie les détail de la Grid dont l'id est rentré en paramètre en utilisant la route Get /grid/{id}.
+
+### Get : /persons List all person IDs
+
+Renvoie la liste des IDs des éléments de la classe Person en utilisant la route Get /persons.
+
+### Get : /person/{id} Get person by IDs
+
+Renvoie les détails d'un objet de la table Person dont l'id est rentré en paramètre en utilisant la route Get /person/{id}.
+
+### Get : /measurement/{id} Get measurement definition
+
+Renvoie les détails d'un objet de la classe Measurement dont l'id est donné en paramètre de la la route. La route utilisé est Get /measurement/{id}.
+
+## Partie Medium
+
+## Partie Advanced
+
+## Partie Hard
