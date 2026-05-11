@@ -1,5 +1,7 @@
 package fr.imta.smartgrid.server.handlers;
 
+import fr.imta.smartgrid.model.SolarPanel;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
@@ -26,6 +28,13 @@ public class SolarPanelHandler {
             double power = Double.parseDouble(parts[2]);
             long timestamp = Long.parseLong(parts[3]);
 
+            SolarPanel solarpanel = db.find(SolarPanel.class, id);
+            if (solarpanel == null){
+                ctx.response().setStatusCode(404);
+                ctx.json("Solar Panel not found");
+                return;
+            }
+
             db.createNativeQuery("INSERT INTO datapoint (id, timestamp, value, type) VALUES (?, ?, ?, ?)")
             .setParameter(1, id)
             .setParameter(2, timestamp)
@@ -33,7 +42,7 @@ public class SolarPanelHandler {
             .setParameter(4, 2);
 
             ctx.response().setStatusCode(201);
-            ctx.json("success");
+            ctx.json(new JsonObject().put("status", "success"));
         }
         catch(NumberFormatException e){
             ctx.response().setStatusCode(400);

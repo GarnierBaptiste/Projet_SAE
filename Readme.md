@@ -68,4 +68,50 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 
 ## Partie Advanced
 
+### Post : /ingress/windturbine Receive wind turbine measurement
+
+Ajoute une mesure à une élolienne dans la table Measurement en utilisant la route Post /ingress/windturbine.
+
+Ce que nous renvoie notre fonction après l'ajout de la nouvelle mesure en cas de résussite :
+
+![Onzième_image](Annexe/A1R.png)
+
+Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesure en cas de résussite :
+
+![Douzième_image](Annexe/A1E.png)
+
+Ce que nous renvoie notre fonction après l'ajout de la nouvelle mesure en cas d'échec :
+
+![Treizième_image](Annexe/A1XR.png)
+
+Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesure en cas d'échec :
+
+![Quatorzième_image](Annexe/A1XE.png)
+
+### Post : /ingress/solarpanel Receive solar panel measurement
+
+Ajoute une mesure à un panneau solaire dans la table Measurement en utilisant la route Post /ingress/solarpanel.
+
+Ce que nous renvoie notre fonction après l'ajout de la nouvelle mesure en cas de résussite :
+
+![Quinzième_image](Annexe/A2R.png)
+
+Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesure en cas de résussite :
+
+![Seizième_image](Annexe/A2E.png)
+
+Ce que nous renvoie notre fonction après l'ajout de la nouvelle mesure en cas d'échec :
+
+![Dix-septième_image](Annexe/A2XR.png)
+
+Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesure en cas d'échec :
+
+![Dix-huitième_image](Annexe/A2XE.png)
+
+### Get : /sensor/{id} Get sensor detail
+
+### Post : /sensor/{id} Update a sensor
+
+### Get : /measurements/{id}/values Get measurement values
+
 ## Partie Hard
