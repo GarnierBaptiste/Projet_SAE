@@ -10,13 +10,23 @@ Renvoie la liste des IDs des éléments de la classe Grid en utilisant la route 
 
 Ce que nous renvoie notre fonction :
 
-![Première_image](Annexe/Required_1_Response.png)
+![Première_image](Annexe/R1R.png)
 
 Ce que la fonction est censée nous renvoyer :
+
+![Deuxième_image](Annexe/R1E.png)
 
 ### Get : /grid/{id} Get grid details
 
 Renvoie les détail de la Grid dont l'id est rentré en paramètre en utilisant la route Get /grid/{id}.
+
+Ce que nous renvoie notre fonction en mettant en paramère l'id à 1 :
+
+![Troisième_image](Annexe/R2R.png)
+
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
+
+![Quatrième_image](Annexe/R2E.png)
 
 ### Get : /persons List all person IDs
 
