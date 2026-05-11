@@ -136,11 +136,11 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 
 Renvoie les valeurs d'une mesure pour un id donné en paramètre de la route. La route utilisé est Get /measurements/{id}/values.
 
-Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 2 :
 
 ![Vingt-troisième_image](Annexe/A5R.png)
 
-Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 2 :
 
 ![Vingt-quatrième_image](Annexe/A5E.png)
 
