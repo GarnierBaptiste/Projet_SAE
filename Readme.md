@@ -54,7 +54,7 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 
 ### Get : /measurement/{id} Get measurement definition
 
-Renvoie les détails d'un objet de la classe Measurement dont l'id est donné en paramètre de la la route. La route utilisé est Get /measurement/{id}.
+Renvoie les détails d'un objet de la classe Measurement dont l'id est donné en paramètre de la route. La route utilisé est Get /measurement/{id}.
 
 Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
@@ -110,8 +110,38 @@ Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesur
 
 ### Get : /sensor/{id} Get sensor detail
 
+Renvoie les détails d'un objet de la classe Sensor pour un id donné en paramètre de la route. La route utilisé est Get /sensor/{id}.
+
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
+
+![Dix-neuvième_image](Annexe/A3R.png)
+
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
+
+![Vingtième_image](Annexe/A3E.png)
+
 ### Post : /sensor/{id} Update a sensor
 
+Met à jour les détails d'un objet de la classe Sensor pour un id donné en paramètre de la route, en utilisant La route Post /sensor/{id}.
+
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 après la mise à jour du capteur en cas de résussite :
+
+![Vingt-et-unième_image](Annexe/A4R.png)
+
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 après la mise à jour du capteur en cas de résussite :
+
+![Vingt-deuxième_image](Annexe/A4E.png)
+
 ### Get : /measurements/{id}/values Get measurement values
+
+Renvoie les valeurs d'une mesure pour un id donné en paramètre de la route. La route utilisé est Get /measurements/{id}/values.
+
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
+
+![Vingt-troisième_image](Annexe/A5R.png)
+
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
+
+![Vingt-quatrième_image](Annexe/A5E.png)
 
 ## Partie Hard
