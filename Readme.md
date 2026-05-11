@@ -112,11 +112,11 @@ Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesur
 
 Renvoie les détails d'un objet de la classe Sensor pour un id donné en paramètre de la route. La route utilisé est Get /sensor/{id}.
 
-Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 2 :
 
 ![Dix-neuvième_image](Annexe/A3R.png)
 
-Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 2 :
 
 ![Vingtième_image](Annexe/A3E.png)
 
@@ -124,11 +124,11 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 
 Met à jour les détails d'un objet de la classe Sensor pour un id donné en paramètre de la route, en utilisant La route Post /sensor/{id}.
 
-Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 après la mise à jour du capteur en cas de résussite :
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 2 après la mise à jour du capteur en cas de résussite :
 
 ![Vingt-et-unième_image](Annexe/A4R.png)
 
-Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 après la mise à jour du capteur en cas de résussite :
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 2 après la mise à jour du capteur en cas de résussite :
 
 ![Vingt-deuxième_image](Annexe/A4E.png)
 
@@ -136,11 +136,11 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 
 Renvoie les valeurs d'une mesure pour un id donné en paramètre de la route. La route utilisé est Get /measurements/{id}/values.
 
-Ce que nous renvoie notre fonction en mettant en paramètre l'id à 2 :
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
 ![Vingt-troisième_image](Annexe/A5R.png)
 
-Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 2 :
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
 
 ![Vingt-quatrième_image](Annexe/A5E.png)
 
