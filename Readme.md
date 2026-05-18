@@ -115,13 +115,21 @@ Ce que la fonction est censée nous renvoyer l'id ne correspind à auncune perso
 
 Supprime une personne de la table Person pour un id donné en paramètre de la route. La route utilisé est Delete /person/{id}.
 
+Voic l'id de toute les personnes de la base de données avant la suppression de la personne dont l'id est 3 :
+
+![Medium Delete Person Before Response](Annexe/M3R.png)
+
+Voici l'id de toute les personnes de la base de données après la suppression de la personne dont l'id est 3 :
+
+![Medium Delete Person After Response](Annexe/M3A.png)
+
 Voici ce que nous renvoie la fonction s'il l'id mis en paramèrtre ne correspond à aucune personne dans la base de données :
 
-![Medium Delete Person Error Response](Annexe/M3R.png)
+![Medium Delete Person Error Response](Annexe/M3XR.png)
 
 Voici ce que la fonction est censée nous renvoyer s'il l'id mis en paramèrtre ne correspond à aucune personne dans la base de données :
 
-![Medium Delete Person Error Example](Annexe/M3E.png)
+![Medium Delete Person Error Example](Annexe/M3XE.png)
 
 ### Get : /sensor/{kind} List sensors of a given kind
 
