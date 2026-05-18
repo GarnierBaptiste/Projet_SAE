@@ -271,8 +271,8 @@ Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1
 
 ![Hard Get Measurment Consumer Values Example](Annexe/H2E.png)
 
+## Remarque
 
+Nous avons eu quelques problèmes, notamment avec la fonction Delete de la partie Medium qui tourne à l'infini et qui ne s'arrête pas alors qu'elle a déjà supprimé la personne indiquée.
 
-
-
-
+Il y a aussi une erreur sur les nombres renvoyés par les deux fonctions de la partie hard, ils ne sont pas identiques mais très similaires. Cette différence peut s'expliquer par la précision flottante qui modifie un peu les nombres, notamment ceux avec une certaine quantité de chiffres après la virgule, comme c'est le cas dans les données que nous traitons.
