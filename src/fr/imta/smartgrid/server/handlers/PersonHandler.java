@@ -106,6 +106,9 @@ public class PersonHandler {
             }
         }
 
+        Integer id = ((Number) db.createNativeQuery("SELECT max(id) FROM person").getSingleResult()).intValue();
+
+        p.setId(id+1);
         var tx = db.getTransaction();
         try {
             tx.begin();
@@ -234,5 +237,6 @@ public class PersonHandler {
         }
 
         ctx.response().setStatusCode(204);
+        ctx.json("Success");
     }
 }
