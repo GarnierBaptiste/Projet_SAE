@@ -115,6 +115,14 @@ Ce que la fonction est censée nous renvoyer l'id ne correspind à auncune perso
 
 Supprime une personne de la table Person pour un id donné en paramètre de la route. La route utilisé est Delete /person/{id}.
 
+Voici ce que nous renvoie la fonction s'il l'id mis en paramèrtre ne correspond à aucune personne dans la base de données :
+
+![Medium Delete Person Error Response](Annexe/M3R.png)
+
+Voici ce que la fonction est censée nous renvoyer s'il l'id mis en paramèrtre ne correspond à aucune personne dans la base de données :
+
+![Medium Delete Person Error Example](Annexe/M3E.png)
+
 ### Get : /sensor/{kind} List sensors of a given kind
 
 Renvoie la liste des capteurs d'un type donné en paramètre de la route. La route utilisé est Get /sensor/{kind}.
