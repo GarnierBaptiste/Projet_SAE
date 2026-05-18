@@ -253,11 +253,11 @@ Renvoie la valeur numérique correspondant au total de la production. La route u
 
 Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
-![Hard Get Measurement Values Response](Annexe/H1R.png)
+![Hard Get Measurement Producer Values Response](Annexe/H1R.png)
 
 Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
 
-![Hard Get Measurment Values Example](Annexe/H1E.png)
+![Hard Get Measurment Producer Values Example](Annexe/H1E.png)
 
 ### Get : /grid/{id}/consumption Get grid total consumption
 
@@ -265,11 +265,11 @@ Renvoie la valeur numérique correspondant au total de la consommation. La route
 
 Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 : 
 
-![Hard Get Measurment Values Response](Annexe/H2R.png)
+![Hard Get Measurment Consumer Values Response](Annexe/H2R.png)
 
 Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1 :
 
-![Hard Get Measurment Values Example](Annexe/H2E.png)
+![Hard Get Measurment Consumer Values Example](Annexe/H2E.png)
 
 
 
