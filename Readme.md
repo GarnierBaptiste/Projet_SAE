@@ -59,7 +59,7 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 
 ### Get : /measurement/{id} Get measurement definition
 
-Renvoie les détails d'un objet de la classe Measurement dont l'id est donné en paramètre de la route. La route utilisé est Get /measurement/{id}.
+Renvoie les détails d'un objet de la classe Measurement dont l'id est donné en paramètre de la route. La route utilisée est Get /measurement/{id}.
 
 Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
@@ -113,7 +113,7 @@ Ce que la fonction est censée nous renvoyer l'id ne correspind à auncune perso
 
 ### Delete : /person/{id} Delete a person
 
-Supprime une personne de la table Person pour un id donné en paramètre de la route. La route utilisé est Delete /person/{id}.
+Supprime une personne de la table Person pour un id donné en paramètre de la route. La route utilisée est Delete /person/{id}.
 
 Voic l'id de toute les personnes de la base de données avant la suppression de la personne dont l'id est 3 :
 
@@ -121,7 +121,7 @@ Voic l'id de toute les personnes de la base de données avant la suppression de 
 
 Voici l'id de toute les personnes de la base de données après la suppression de la personne dont l'id est 3 :
 
-![Medium Delete Person After Response](Annexe/R2R.png)
+![Medium Delete Person After Response](Annexe/M3A.png)
 
 Voici ce que nous renvoie la fonction s'il l'id mis en paramèrtre ne correspond à aucune personne dans la base de données :
 
@@ -133,7 +133,7 @@ Voici ce que la fonction est censée nous renvoyer s'il l'id mis en paramèrtre 
 
 ### Get : /sensor/{kind} List sensors of a given kind
 
-Renvoie la liste des capteurs d'un type donné en paramètre de la route. La route utilisé est Get /sensor/{kind}.
+Renvoie la liste des capteurs d'un type donné en paramètre de la route. La route utilisée est Get /sensor/{kind}.
 
 Voici ce que nous renvoie notre fonction en mettant en paramètre le type de capteur à "EVCharger" :
 
@@ -211,7 +211,7 @@ Ce que la fonction est censée nous renvoyer après l'ajout de la nouvelle mesur
 
 ### Get : /sensor/{id} Get sensor detail
 
-Renvoie les détails d'un objet de la classe Sensor pour un id donné en paramètre de la route. La route utilisé est Get /sensor/{id}.
+Renvoie les détails d'un objet de la classe Sensor pour un id donné en paramètre de la route. La route utilisée est Get /sensor/{id}.
 
 Ce que nous renvoie notre fonction en mettant en paramètre l'id à 2 :
 
@@ -235,7 +235,7 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 2 
 
 ### Get : /measurements/{id}/values Get measurement values
 
-Renvoie les valeurs d'une mesure pour un id donné en paramètre de la route. La route utilisé est Get /measurements/{id}/values.
+Renvoie les valeurs d'une mesure pour un id donné en paramètre de la route. La route utilisée est Get /measurements/{id}/values.
 
 Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
@@ -246,3 +246,33 @@ Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 
 ![Advanced Get Measurement Values Example](Annexe/A5E.png)
 
 ## Partie Hard
+
+### Get : /grid/{id}/production Get grid total production 
+
+Renvoie la valeur numérique correspondant au total de la production. La route utilisée est Get /grid/{id}/production.
+
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
+
+![Hard Get Measurement Values Response](Annexe/H1R.png)
+
+Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
+
+![Hard Get Measurment Values Example](Annexe/H1A.png)
+
+### Get : /grid/{id}/consumption Get grid total consumption
+
+Renvoie la valeur numérique correspondant au total de la consommation. La route utilisée est Get /grid/{id}/consumption.
+
+Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 : 
+
+![Hard Get Measurment Values Response](Annexe/H2R.png)
+
+Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1 :
+
+![Hard Get Measurment Values Example](Annexe/H2A.png)
+
+
+
+
+
+
