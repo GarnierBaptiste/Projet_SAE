@@ -38,7 +38,7 @@ public class GridHandler {
             ctx.json("Grid not found");
             return;
         }
-        Double sum = (Double) db.createNativeQuery("select sum(d.value) from datapoint as d where d.measurement in (select m.id from measurement as m where m.sensor in (SELECT s.id FROM sensor as s where s.grid = " + id + " and s.id in (select p.id from producer as p)))").getResultList().get(0);
+        Double sum = (Double) db.createNativeQuery("select sum(max_val) from(select max(value) as max_val from datapoint as d join measurement as m on d.measurement = m.id where m.name = 'total_energy_produced' group by d.measurement) sub;").getResultList().get(0);
         ctx.json(sum);
     }
 
@@ -50,7 +50,9 @@ public class GridHandler {
             ctx.json("Grid not found");
             return;
         }
-        Double sum = (Double) db.createNativeQuery("select sum(d.value) from datapoint as d where d.measurement in (select m.id from measurement as m where m.sensor in (SELECT s.id FROM sensor as s where s.grid = " + id + " and s.id in (select c.id from consumer as c)))").getResultList().get(0);
+        Double sum = (Double) db.createNativeQuery("select sum(max_val) from(select max(value) as max_val from datapoint as d join measurement as m on d.measurement = m.id where m.name = 'total_energy_consumed' group by d.measurement) sub;").getResultList().get(0);
         ctx.json(sum);
     }
 }
+
+//select sum(d.value) from datapoint as d where d.measurement in (select m.id from measurement as m where m.sensor in (SELECT s.id FROM sensor as s where s.grid = " + id + " and s.id in (select c.id from consumer as c)))"

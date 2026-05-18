@@ -121,7 +121,7 @@ Voic l'id de toute les personnes de la base de données avant la suppression de 
 
 Voici l'id de toute les personnes de la base de données après la suppression de la personne dont l'id est 3 :
 
-![Medium Delete Person After Response](Annexe/M3A.png)
+![Medium Delete Person After Response](Annexe/R2R.png)
 
 Voici ce que nous renvoie la fonction s'il l'id mis en paramèrtre ne correspond à aucune personne dans la base de données :
 
