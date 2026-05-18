@@ -257,7 +257,7 @@ Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
 Ce que la fonction est censée nous renvoyer en mettant en paramètre l'id à 1 :
 
-![Hard Get Measurment Values Example](Annexe/H1A.png)
+![Hard Get Measurment Values Example](Annexe/H1E.png)
 
 ### Get : /grid/{id}/consumption Get grid total consumption
 
@@ -269,7 +269,7 @@ Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 
 Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1 :
 
-![Hard Get Measurment Values Example](Annexe/H2A.png)
+![Hard Get Measurment Values Example](Annexe/H2E.png)
 
 
 
