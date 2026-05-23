@@ -3,8 +3,6 @@ package fr.imta.smartgrid.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.g;
-
 import io.vertx.core.json.JsonObject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
