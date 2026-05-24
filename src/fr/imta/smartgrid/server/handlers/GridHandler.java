@@ -3,7 +3,6 @@ package fr.imta.smartgrid.server.handlers;
 import java.util.List;
 
 import fr.imta.smartgrid.model.Grid;
-
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
@@ -23,8 +22,7 @@ public class GridHandler {
     public void getById(RoutingContext ctx) {
         Grid g = db.find(Grid.class, Integer.parseInt(ctx.pathParam("id")));
         if (g == null) {
-            ctx.fail(404);
-            ctx.json("grid not found");
+            ctx.response().setStatusCode(404).end("grid not found");
         } else {
             ctx.json(g.toJSON());
         }

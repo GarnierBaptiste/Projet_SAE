@@ -1,12 +1,12 @@
 package fr.imta.smartgrid.server.handlers;
 
-import fr.imta.smartgrid.model.DataPoint;
+import java.util.List;
+
 import fr.imta.smartgrid.model.Measurement;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
-import java.util.List;
 
 public class MeasurementHandler {
 
@@ -19,8 +19,7 @@ public class MeasurementHandler {
     public void getById(RoutingContext ctx) {
         Measurement m = db.find(Measurement.class, Integer.parseInt(ctx.pathParam("id")));
         if (m == null) {
-            ctx.fail(404);
-            ctx.json("Measurement not found");
+            ctx.response().setStatusCode(404).end("Measurement not found");
         } else {
             ctx.json(m.toJSON());
         }
@@ -30,8 +29,7 @@ public class MeasurementHandler {
         int id = Integer.parseInt(ctx.pathParam("id"));
 
         if (db.find(Measurement.class, id) == null) {
-            ctx.fail(404);
-            ctx.json("Measurement not found");
+            ctx.response().setStatusCode(404).end("Measurement not found");
             return;
         }
 
@@ -51,8 +49,7 @@ public class MeasurementHandler {
 
         if (from != null && to != null) {
             if (from > to){
-                ctx.fail(400);
-                ctx.json("Invalid date range");
+                ctx.response().setStatusCode(400).end("Invalid date range");
                 return;
             }
             sql += " and timestamp >= " + from + " and timestamp <= " + to + " order by timestamp";

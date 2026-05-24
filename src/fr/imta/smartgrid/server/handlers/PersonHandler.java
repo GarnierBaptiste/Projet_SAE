@@ -1,12 +1,12 @@
 package fr.imta.smartgrid.server.handlers;
 
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
-import fr.imta.smartgrid.model.Person;
 import fr.imta.smartgrid.model.Grid;
+import fr.imta.smartgrid.model.Person;
 import fr.imta.smartgrid.model.Sensor;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -28,8 +28,7 @@ public class PersonHandler {
         Person person = db.find(Person.class, Integer.parseInt(ctx.pathParam("id")));
 
         if (person == null) {
-            ctx.fail(404);
-            ctx.json("Person not found");
+            ctx.response().setStatusCode(404).end("Person not found");
         } else {
             ctx.json(person.toJSON());
         }
