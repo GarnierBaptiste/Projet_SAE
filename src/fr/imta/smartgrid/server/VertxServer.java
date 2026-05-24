@@ -2,6 +2,7 @@ package fr.imta.smartgrid.server;
 
 import java.util.Map;
 
+import static org.eclipse.persistence.config.PersistenceUnitProperties.LOGGING_LEVEL;
 import org.eclipse.persistence.logging.SessionLog;
 
 import fr.imta.smartgrid.server.handlers.ConsumerHandler;
@@ -19,8 +20,6 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
-
-import static org.eclipse.persistence.config.PersistenceUnitProperties.*;
 
 public class VertxServer {
     private Vertx vertx;
@@ -45,13 +44,14 @@ public class VertxServer {
         router.route().handler(BodyHandler.create());
         router.route().handler(CorsHandler.create().addOrigin("*").allowedMethod(HttpMethod.DELETE).allowedMethod(HttpMethod.PUT));
 
-        // create handlers and registers routes
+        // create handlers and registers routes for grids
         GridHandler gh = new GridHandler(db);
         router.get("/grids").handler(gh::getIds);
         router.get("/grid/:id").handler(gh::getById);
         router.get("/grid/:id/production").handler(gh::production);
         router.get("/grid/:id/consumption").handler(gh::consumption);
 
+        // create handlers and registers routes for persons
         PersonHandler ph = new PersonHandler(db);
         router.get("/persons").handler(ph::getIds);
         router.get("/person/:id").handler(ph::getById);
@@ -59,24 +59,26 @@ public class VertxServer {
         router.post("/person/:id").handler(ph::update);
         router.delete("/person/:id").handler(ph::delete);
         
+        // create handlers and registers routes for measurements
         MeasurementHandler mh = new MeasurementHandler(db);
         router.get("/measurement/:id").handler(mh::getById);
         router.get("/measurement/:id/values").handler(mh::getMeasurement);
 
+        // create handlers and registers routes for sensors
         SensorHandler sh = new SensorHandler(db);
         router.get("/sensors/:kind").handler(sh::getbyKind);
         router.get("/sensor/:id").handler(sh::getbyID);
         router.post("/sensor/:id").handler(sh::update);
 
+        // create handlers and registers routes for producers and consumers
         ProducerHandler prh = new ProducerHandler(db);
         router.get("/producers").handler(prh::getProducers);
-
         ConsumerHandler ch = new ConsumerHandler(db);
         router.get("/consumers").handler(ch::getConsumers);
 
+        // create handlers and registers routes for wind turbines and solar panels
         WindTurbineHandler wh = new WindTurbineHandler(db);
         router.post("/ingress/windturbine").handler(wh::ingress);
-
         SolarPanelHandler sph = new SolarPanelHandler(db);
         router.post("/ingress/solarpanel").handler(sph::ingress);
         
