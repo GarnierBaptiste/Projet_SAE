@@ -294,7 +294,7 @@ Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1
 
 Nous avons réalisé des tests automatiques pour les différentes fonctions de notre API, en utilisant la librairie RestAssured ainsi que la libraireie Apache Maven. Ces tests se trouvent dans le fichier "ApiTest.java" qui se trouve dans le dossier "src/test/java". Nous avons fait en tout 67 fonctions de test pour les différentes fonctions de notre API, en testant à la fois les cas de réussite et les cas d'échec. Et voici les résultats de ces tests :
 
-![Tests Results](Annexe/Tests.png)
+![Tests Results](Annexe/Test.png)
 
 ## Remarque
 
