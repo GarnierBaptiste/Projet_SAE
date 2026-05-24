@@ -24,7 +24,7 @@ Si on utilise l'IDE VSCode il est aussi recommandé de télécharger les extensi
 
 Pour tester notre code il faut dans un premier temps ouvrir Docker Dekstop et lancé la commande "docker compose up -d" au niveau de la racine du projet. Qaund les conteneurs se sont initialisée/démarré, on doit lancer le fichier "VertxServer.java" qui se trouve dans le dossier "src/main/java". Après cela, l'API est opérationnelle et on peut faire les différentes requêtes pour tester les différentes fonctions de l'API. Elle est disponible à l'adresse web suivant : https://hub.imt-atlantique.fr/ueinfo-fise1a/s6/project/session4/projet/index.html.
 
-Pour voire les données de la base de données, on peut se rendre à l'adresse web suivante : http://localhost:8082/ dans laquelle on pourra observer les différent users ainsi que tout les sensors (producers comme consumers) et les donées de l'unique grid du projet. On peut aussi créer, sur cette page, un nouvel utilisateur auquel on pourra liée les différents sensors comme nous le souhaitons.
+Pour voir les données de la base de données, on peut se rendre à l'adresse web suivante : http://localhost:8082/ dans laquelle on pourra observer les différents utilisateurs ainsi que tous les sensors (producteurs comme consommateurs) et les données de l'unique grid du projet. On peut aussi créer, sur cette page, un nouvel utilisateur auquel on pourra lier les différents sensors comme nous le souhaitons.
 
 ## Partie Required
 
@@ -292,13 +292,13 @@ Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1
 
 ## Tests automatiques
 
-Nous avons réalisé des tests automatiques pour les différentes fonctions de notre API, en utilisant la librairie RestAssured ainsi que la libraireie Apache Maven. Ces tests se trouvent dans le fichier "ApiTest.java" qui se trouve dans le dossier "src/test/java". Nous avons fait en tout 67 fonctions de test pour les différentes fonctions de notre API, en testant à la fois les cas de réussite et les cas d'échec. Et voici les résultats de ces tests :
+Nous avons réalisé des tests automatiques pour les différentes fonctions de notre API, en utilisant la librairie RestAssured ainsi que la librairie Apache Maven. Ces tests se trouvent dans le fichier "ApiTest.java" qui se trouve dans le dossier "src/test/java". Nous avons fait en tout 67 fonctions de test pour les différentes fonctions de notre API, en testant à la fois les cas de réussite et les cas d'échec. Et voici les résultats de ces tests :
 
 ![Tests Results](Annexe/Test.png)
 
 ## Remarque
 
-Il y a une différence de valeur entre celles que nous renvoyons et celles que nous sommes sensés renvoyer pour la fonction get /measurement/{id}/values, car les valeurs que nous sommes sensés renvoyer n'existent pas dans la base de données. Nous avons donc affiché les valeurs présentes dans la base de données.
+Il y a une différence de valeur entre celles que nous renvoyons et celles que nous sommes censés renvoyer pour la fonction get /measurement/{id}/values, car les valeurs que nous sommes censés renvoyer n'existent pas dans la base de données. Nous avons donc affiché les valeurs présentes dans la base de données.
 
 Il y a aussi une erreur sur les nombres renvoyés par les deux fonctions de la partie hard, ils ne sont pas identiques mais très similaires. Cette différence peut s'expliquer par la précision flottante qui modifie un peu les nombres, notamment ceux avec une certaine quantité de chiffres après la virgule, comme c'est le cas dans les données que nous traitons.
 
