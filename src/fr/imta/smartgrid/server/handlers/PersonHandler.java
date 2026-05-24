@@ -1,6 +1,5 @@
 package fr.imta.smartgrid.server.handlers;
 
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +11,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
+/**
+ * Handler assurant le cycle de vie CRUD complet pour les entités {@link Person}.
+ * Inclus la gestion des relations complexes avec les réseaux (Grids) et l'attribution/Révocation
+ * des capteurs possédés (owned_sensors).
+ */
 public class PersonHandler {
     private EntityManager db;
 
@@ -19,11 +23,17 @@ public class PersonHandler {
         this.db = db;
     }
 
+    /**
+     * Liste l'intégralité des identifiants des personnes enregistrées.
+     */
     public void getIds(RoutingContext ctx) {
         List<Integer> personIds = db.createNativeQuery("SELECT id from person").getResultList();
         ctx.json(personIds);
     }
 
+    /**
+     * Récupère le profil d'une personne par son ID.
+     */
     public void getById(RoutingContext ctx) {
         Person person = db.find(Person.class, Integer.parseInt(ctx.pathParam("id")));
 
@@ -34,10 +44,16 @@ public class PersonHandler {
         }
     }
 
+    /**
+     * Crée une nouvelle entité Person en base à partir d'un payload JSON.
+     * Valide la présence des champs obligatoires et lie les éventuels capteurs associés.
+     */
     public void create(RoutingContext ctx){
         JsonObject input = ctx.body().asJsonObject();
+        
+        // --- VALIDATIONS DE SURFACE ---
         if (!input.containsKey("first_name")) {
-            ctx.response().setStatusCode(500);
+            ctx.response().setStatusCode(500); // Devrait idéalement être un code 400 (Bad Request)
             ctx.json("Missing first_name");
             return;
         }
@@ -55,6 +71,8 @@ public class PersonHandler {
         String first = input.getString("first_name");
         String last = input.getString("last_name");
         Integer gridId = input.getInteger("grid");
+        
+        // Gestion adaptative du type si l'ID de la grille est passé sous forme de chaîne
         if (gridId == null) {
             try {
                 gridId = Integer.parseInt(input.getValue("grid").toString());
@@ -72,11 +90,13 @@ public class PersonHandler {
             return;
         }
 
+        // Instanciation et initialisation du modèle
         Person p = new Person();
         p.setFirstName(first);
         p.setLastName(last);
         p.setGrid(g);
 
+        // --- GESTION DES CAPTEURS ASSOCIES (Relation Many-To-Many / One-To-Many) ---
         if (input.containsKey("owned_sensors")) {
             try {
                 var arr = input.getJsonArray("owned_sensors");
@@ -95,6 +115,7 @@ public class PersonHandler {
                         ctx.json("sensor not found: " + sid);
                         return;
                     }
+                    // Établissement de la relation bidirectionnelle
                     p.getSensors().add(s);
                     s.getOwners().add(p);
                 }
@@ -105,9 +126,11 @@ public class PersonHandler {
             }
         }
 
+        // Calcul de l'ID manuel (simulation d'auto-incrément)
         Integer id = ((Number) db.createNativeQuery("SELECT max(id) FROM person").getSingleResult()).intValue();
-
         p.setId(id+1);
+        
+        // --- EXECUTION TRANSACTIONNELLE ---
         var tx = db.getTransaction();
         try {
             tx.begin();
@@ -124,6 +147,9 @@ public class PersonHandler {
         ctx.json(p.toJSONID());
     }
 
+    /**
+     * Met à jour les informations d'une personne existante (mise à jour partielle / comportement de type PATCH).
+     */
     public void update(RoutingContext ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -136,6 +162,7 @@ public class PersonHandler {
 
         JsonObject input = ctx.body().asJsonObject();
 
+        // Application conditionnelle des modifications structurelles
         if (input.containsKey("first_name")) {
             p.setFirstName(input.getString("first_name"));
         }
@@ -162,6 +189,7 @@ public class PersonHandler {
             p.setGrid(g);
         }
 
+        // Synchronization de l'état de la collection des capteurs possédés (Ajout / Révocation)
         if (input.containsKey("owned_sensors")) {
             var arr = input.getJsonArray("owned_sensors");
             Set<Integer> newIds = new HashSet<>();
@@ -175,6 +203,7 @@ public class PersonHandler {
                 return;
             }
 
+            // Phase 1 : Suppression des relations obsolètes qui ne figurent plus dans le nouveau payload
             var existingSensors = List.copyOf(p.getSensors());
             for (Sensor s : existingSensors) {
                 if (!newIds.contains(s.getId())) {
@@ -183,6 +212,7 @@ public class PersonHandler {
                 }
             }
 
+            // Phase 2 : Ajout des nouvelles relations manquantes
             for (Integer sid : newIds) {
                 boolean already = p.getSensors().stream().anyMatch(existing -> existing.getId() == sid);
                 if (!already) {
@@ -198,6 +228,7 @@ public class PersonHandler {
             }
         }
 
+        // Validation des modifications en base (Dirty checking automatique de JPA lors du commit)
         var tx = db.getTransaction();
         try {
             tx.begin();
@@ -213,6 +244,9 @@ public class PersonHandler {
         ctx.json(p.toJSON());
     }
 
+    /**
+     * Supprime une personne de l'application.
+     */
     public void delete(RoutingContext ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -226,7 +260,7 @@ public class PersonHandler {
         var tx = db.getTransaction();
         try {
             tx.begin();
-            db.remove(p);
+            db.remove(p); // Suppression de l'entité
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
@@ -235,7 +269,7 @@ public class PersonHandler {
             return;
         }
 
-        ctx.response().setStatusCode(204);
+        ctx.response().setStatusCode(204); // No Content
         ctx.json("Success");
     }
 }

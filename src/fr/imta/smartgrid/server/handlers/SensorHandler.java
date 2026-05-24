@@ -2,20 +2,25 @@ package fr.imta.smartgrid.server.handlers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import fr.imta.smartgrid.model.Grid;
+import java.util.List;
+import java.util.Set;
+
 import fr.imta.smartgrid.model.Consumer;
+import fr.imta.smartgrid.model.Grid;
 import fr.imta.smartgrid.model.Person;
 import fr.imta.smartgrid.model.Producer;
 import fr.imta.smartgrid.model.Sensor;
 import fr.imta.smartgrid.model.SolarPanel;
 import fr.imta.smartgrid.model.WindTurbine;
-import java.util.List;
-import java.util.Set;
-
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
+/**
+ * Handler centralisé pour la manipulation polymorphique des capteurs ({@link Sensor}).
+ * Utilise massivement l'inspection de type (instanceof) pour appliquer des règles métiers et 
+ * des mises à jour de propriétés spécifiques aux sous-classes (SolarPanel, WindTurbine, Consumer).
+ */
 public class SensorHandler {
     private EntityManager db;
 
@@ -23,12 +28,19 @@ public class SensorHandler {
         this.db = db;
     }
 
+    /**
+     * Récupère la liste des identifiants filtrée par la colonne discriminante 'dtype' (Kind) de l'héritage JPA.
+     */
     public void getbyKind(RoutingContext ctx) {
         String kind = ctx.pathParam("kind");
+        // Requête SQL native s'appuyant sur l'architecture Single-Table de l'héritage JPA
         List<Integer> sensorIds = db.createNativeQuery("SELECT id FROM Sensor where dtype = '" + kind + "'").getResultList();
         ctx.json(sensorIds);
     }
 
+    /**
+     * Récupère le modèle complet d'un capteur via son ID.
+     */
     public void getbyID(RoutingContext ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
         Sensor sensor = db.find(Sensor.class, id);
@@ -39,9 +51,12 @@ public class SensorHandler {
         else{
             ctx.json(sensor.toJSON());
         }
-
     }
 
+    /**
+     * Met à jour dynamiquement un capteur. Gère à la fois les propriétés génériques des capteurs
+     * et les attributs spécifiques aux implémentations dérivées (panneaux solaires, éoliennes, consommateurs).
+     */
     public void update(RoutingContext ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
         Sensor sensor = db.find(Sensor.class, id);
@@ -53,6 +68,7 @@ public class SensorHandler {
 
         JsonObject input = ctx.body().asJsonObject();
 
+        // --- 1. VERIFICATION ET CHARGEMENT DU RESEAU ASSOCIÉ (GRID) ---
         Grid grid = null;
         if (input.containsKey("grid")) {
             Integer gridId = input.getInteger("grid");
@@ -74,16 +90,16 @@ public class SensorHandler {
             }
         }
 
+        // --- 2. VALIDATION DU PAYLOAD DES PROPRIÉTAIRES (OWNERS) ---
         boolean updatingOwners = input.containsKey("owners");
         Set<Integer> ownerIds = new HashSet<>();
         List<Person> newOwners = new ArrayList<>();
         if (updatingOwners) {
             var arr = input.getJsonArray("owners");
-
             try {
                 for (int i = 0; i < arr.size(); i++) {
                     Integer ownerId = Integer.parseInt(arr.getValue(i).toString());
-                    if (ownerIds.add(ownerId)) {
+                    if (ownerIds.add(ownerId)) { // Évite les doublons dans le tableau reçu
                         Person owner = db.find(Person.class, ownerId);
                         if (owner == null) {
                             ctx.response().setStatusCode(404);
@@ -100,17 +116,20 @@ public class SensorHandler {
             }
         }
 
+        // Variables temporaires pour contenir les données typées à injecter
         String powerSource = null;
         Float efficiency = null;
         Double height = null;
         Double bladeLength = null;
         Double maxPower = null;
 
+        // --- 3. EXTRACTION ADAPTATIVE SELON LA SOUS-CLASSE ---
         if (sensor instanceof Producer) {
             if (input.containsKey("power_source")) {
                 powerSource = input.getString("power_source");
             }
 
+            // Extraction spécifique aux Panneaux Solaires
             if (sensor instanceof SolarPanel && input.containsKey("efficiency")) {
                 try {
                     Object rawEfficiency = input.getValue("efficiency");
@@ -129,6 +148,7 @@ public class SensorHandler {
                 }
             }
 
+            // Extraction spécifique aux Éoliennes
             if (sensor instanceof WindTurbine) {
                 if (input.containsKey("height")) {
                     try {
@@ -168,6 +188,7 @@ public class SensorHandler {
             }
         }
 
+        // Extraction spécifique aux Consommateurs
         if (sensor instanceof Consumer && input.containsKey("max_power")) {
             try {
                 Object rawMaxPower = input.getValue("max_power");
@@ -186,10 +207,12 @@ public class SensorHandler {
             }
         }
 
+        // --- 4. PERSISTANCE TRANSACTIONNELLE DE L'ETAT ---
         var tx = db.getTransaction();
         try {
             tx.begin();
 
+            // Propriétés génériques communes
             if (input.containsKey("name")) {
                 sensor.setName(input.getString("name"));
             }
@@ -199,9 +222,12 @@ public class SensorHandler {
             if (grid != null) {
                 sensor.setGrid(grid);
             }
+            
+            // Mise à jour de la liste des propriétaires
             if (updatingOwners) {
                 List<Person> existingOwners = List.copyOf(sensor.getOwners());
 
+                // Nettoyage des anciens liens
                 for (Person owner : existingOwners) {
                     boolean keep = ownerIds.contains(owner.getId());
                     if (!keep) {
@@ -210,6 +236,7 @@ public class SensorHandler {
                     }
                 }
 
+                // Ajout des nouveaux liens
                 for (Person owner : newOwners) {
                     boolean alreadyLinked = sensor.getOwners().stream().anyMatch(existing -> existing.getId() == owner.getId());
                     if (!alreadyLinked) {
@@ -219,6 +246,7 @@ public class SensorHandler {
                 }
             }
 
+            // Application des modifications polymorphiques via Pattern Matching (Cast)
             if (sensor instanceof Producer producer) {
                 if (powerSource != null) {
                     producer.setPowerSource(powerSource);

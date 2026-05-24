@@ -1,20 +1,26 @@
 package fr.imta.smartgrid.server.handlers;
 
-import fr.imta.smartgrid.model.Producer;
-import java.util.List;
 import java.util.ArrayList;
-import io.vertx.core.json.JsonObject;
+import java.util.List;
 
+import fr.imta.smartgrid.model.Producer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
+/**
+ * Handler d'accès en lecture pour les ressources de type {@link Producer} (Unités de production).
+ */
 public class ProducerHandler {
-        private EntityManager db;
+    private EntityManager db;
 
     public ProducerHandler(EntityManager db) {
         this.db = db;
     }
 
+    /**
+     * Retourne la liste complète de tous les producteurs d'énergie.
+     */
     public void getProducers(RoutingContext ctx) {
         List<Producer> producers = db.createQuery("SELECT p FROM Producer p", Producer.class).getResultList();
         List<JsonObject> response = new ArrayList<>();

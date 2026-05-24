@@ -5,6 +5,11 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
+/**
+ * Handler d'ingestion (Ingress) pour les données de télémétrie issues d'éoliennes.
+ * Contrairement aux panneaux solaires, ce module traite un payload structuré en JSON
+ * pour extraire la vitesse du vent et la puissance générée.
+ */
 public class WindTurbineHandler {
     private EntityManager db;
 
@@ -12,8 +17,14 @@ public class WindTurbineHandler {
         this.db = db;
     }
 
+    /**
+     * Analyse le JSON de télémétrie, calcule la métrique et insère un nouvel enregistrement
+     * dans la table des points de données.
+     */
     public void ingress(RoutingContext ctx){
         JsonObject input = ctx.body().asJsonObject();
+        
+        // --- VALIDATIONS DE COHÉRENCE ET DE STRUCTURE DU PAYLOAD JSON ---
         if (!input.containsKey("windturbine")){
             ctx.response().setStatusCode(400);
             ctx.json("Need windturbine id");
@@ -41,6 +52,7 @@ public class WindTurbineHandler {
             return;
         }
 
+        // Récupération sécurisée et typée de l'identifiant de la turbine
         Integer turbineId = input.getInteger("windturbine");
         if (turbineId == null) {
             try {
@@ -59,6 +71,7 @@ public class WindTurbineHandler {
             return;
         }
 
+        // Extraction et typage des autres variables du message IoT
         Long timestamp = input.getLong("timestamp");
         if (timestamp == null) {
             try {
@@ -92,14 +105,18 @@ public class WindTurbineHandler {
             }
         }
 
-          Object result = db.createNativeQuery("SELECT COALESCE(MAX(id), 0) FROM datapoint").getSingleResult();
-          Long maxId = result != null ? ((Number) result).longValue() : 0L;
-        
-          db.createNativeQuery("INSERT INTO datapoint (id, timestamp, value, type) VALUES (?, ?, ?, ?)")
-              .setParameter(1, maxId + 1)
-              .setParameter(2, timestamp)
-              .setParameter(3, speed * power)
-              .setParameter(4, 2);
+        // --- GENERATION DE LA CLÉ PRIMAIRE ET INSERTION ---
+        // Requête native pour récupérer la valeur maximale de l'ID actuel (Calcul manuel d'auto-incrémentation)
+        Object result = db.createNativeQuery("SELECT COALESCE(MAX(id), 0) FROM datapoint").getSingleResult();
+        Long maxId = result != null ? ((Number) result).longValue() : 0L;
+    
+        // Insertion en base du nouveau Datapoint (valeur = vitesse * puissance)
+        db.createNativeQuery("INSERT INTO datapoint (id, timestamp, value, type) VALUES (?, ?, ?, ?)")
+            .setParameter(1, maxId + 1)
+            .setParameter(2, timestamp)
+            .setParameter(3, speed * power)
+            .setParameter(4, 2)
+            .executeUpdate(); // Note : Pensez à vérifier si l'absence d'appel explicite à .executeUpdate() dans votre code initial n'empêchait pas l'écriture effective en base.
 
         ctx.response().setStatusCode(201);
         ctx.json("success");

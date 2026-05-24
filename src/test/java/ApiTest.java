@@ -361,7 +361,6 @@ class ApiTest {
     @Order(21)
     @DisplayName("POST /person/{id} - met à jour le first_name et retourne 200 avec les nouvelles valeurs")
     void updatePerson_returns200WithUpdatedValues() {
-        // Utilise la personne créée au test 1 (sinon fallback sur id=1)
         int id = createdPersonId > 0 ? createdPersonId : 1;
 
         given()
@@ -431,9 +430,8 @@ class ApiTest {
     @Order(25)
     @DisplayName("DELETE /person/{id} - supprime la personne créée et retourne 204")
     void deletePerson_returns204() {
-        // On supprime la personne créée au test 1
         int id = createdPersonId > 0 ? createdPersonId : -1;
-        if (id == -1) return; // Si la création a échoué, on passe ce test
+        if (id == -1) return;
 
         given()
             .pathParam("id", id)
@@ -731,7 +729,7 @@ class ApiTest {
     void ingressSolarPanel_incompleteFormat_returns400() {
         given()
             .contentType("text/plain")
-            .body("1:25.5:1500.0")  // 3 parties au lieu de 4
+            .body("1:25.5:1500.0")
         .when()
             .post("/ingress/solarpanel")
         .then()

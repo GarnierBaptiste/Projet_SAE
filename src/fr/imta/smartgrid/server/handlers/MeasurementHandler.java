@@ -8,14 +8,21 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
+/**
+ * Handler dédié au traitement des métadonnées des mesures ({@link Measurement}) et
+ * à l'extraction des séries temporelles associées (points de données / datapoints).
+ */
 public class MeasurementHandler {
 
     private EntityManager db;
 
     public MeasurementHandler(EntityManager db) {
         this.db = db;
-    }
+    }    
 
+    /**
+     * Récupère les métadonnées d'une mesure (comme sa configuration) par son ID.
+     */
     public void getById(RoutingContext ctx) {
         Measurement m = db.find(Measurement.class, Integer.parseInt(ctx.pathParam("id")));
         if (m == null) {
@@ -25,14 +32,21 @@ public class MeasurementHandler {
         }
     }
 
+    /**
+     * Récupère l'historique des points de données (Time, Value) pour un instrument de mesure donné.
+     * Supporte le filtrage optionnel par plage temporelle via les query parameters `from` et `to`.
+     */
     public void getMeasurement(RoutingContext ctx) {
         int id = Integer.parseInt(ctx.pathParam("id"));
 
+        // Validation de l'existence de la mesure parente
         if (db.find(Measurement.class, id) == null) {
             ctx.response().setStatusCode(404).end("Measurement not found");
             return;
         }
 
+        // Construction dynamique de la requête SQL native
+        // /!\ Attention : Concaténation de l'ID à risque d'injection si l'ID n'était pas préalablement casté en entier.
         String sql = "select timestamp, value from datapoint where measurement = " + id;
 
         Integer from = null;
@@ -47,6 +61,7 @@ public class MeasurementHandler {
             to = Integer.parseInt(toStr);
         }
 
+        // Application des filtres de dates s'ils sont fournis en paramètres de requête
         if (from != null && to != null) {
             if (from > to){
                 ctx.response().setStatusCode(400).end("Invalid date range");
@@ -54,8 +69,9 @@ public class MeasurementHandler {
             }
             sql += " and timestamp >= " + from + " and timestamp <= " + to + " order by timestamp";
         }
-        List<Object[]> measurements = db.createNativeQuery(sql).getResultList();
         
+        // Exécution de la requête native et formatage du résultat
+        List<Object[]> measurements = db.createNativeQuery(sql).getResultList();
         JsonArray values = new JsonArray();
 
         for (Object[] datapoint : measurements) {
@@ -64,6 +80,8 @@ public class MeasurementHandler {
             value.put("value", datapoint[1]);
             values.add(value);
         }
+        
+        // Structuration du payload JSON final de retour
         JsonObject response = new JsonObject();
         response.put("sensor_id", id);
         response.put("measurement_id", id);
@@ -71,5 +89,3 @@ public class MeasurementHandler {
         ctx.json(response);   
     }
 }
-
-        

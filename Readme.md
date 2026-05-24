@@ -5,7 +5,26 @@
 ## Lien du dépot Github : 
 https://github.com/GarnierBaptiste/Projet_SAE
 
-Nous avons crée ce dépot Github que pour le compte rendu, donc les commit ne montrent pas l'avancement de la réalisation du projet.
+Nous avons crée ce dépot Github principalement pour le compte rendu, donc les commit ne montrent pas l'avancement de la réalisation du projet.
+
+## Téléchargement nécessaire
+
+Avant de pouvoir tester notre code, il est nécessaire de télécharger 3 éléments : 
+
+- Le JDK 25 : https://www.oracle.com/java/technologies/downloads/#java25
+- Apache Maven : https://maven.apache.org/download.cgi
+- Docker Desktop : https://www.docker.com/products/docker-desktop/
+
+Si on utilise l'IDE VSCode il est aussi recommandé de télécharger les extensions suivantes :
+
+- Extension Java Extension Pack : https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack
+- Debugger for java : https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug
+
+## Utilisation de l'API
+
+Pour tester notre code il faut dans un premier temps ouvrir Docker Dekstop et lancé la commande "docker compose up -d" au niveau de la racine du projet. Qaund les conteneurs se sont initialisée/démarré, on doit lancer le fichier "VertxServer.java" qui se trouve dans le dossier "src/main/java". Après cela, l'API est opérationnelle et on peut faire les différentes requêtes pour tester les différentes fonctions de l'API. Elle est disponible à l'adresse web suivant : https://hub.imt-atlantique.fr/ueinfo-fise1a/s6/project/session4/projet/index.html.
+
+Pour voire les données de la base de données, on peut se rendre à l'adresse web suivante : http://localhost:8082/ dans laquelle on pourra observer les différent users ainsi que tout les sensors (producers comme consumers) et les donées de l'unique grid du projet. On peut aussi créer, sur cette page, un nouvel utilisateur auquel on pourra liée les différents sensors comme nous le souhaitons.
 
 ## Partie Required
 
@@ -270,6 +289,12 @@ Ce que nous renvoie notre fonction en mettant en paramètre l'id à 1 :
 Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1 :
 
 ![Hard Get Measurment Consumer Values Example](Annexe/H2E.png)
+
+## Tests automatiques
+
+Nous avons réalisé des tests automatiques pour les différentes fonctions de notre API, en utilisant la librairie RestAssured ainsi que la libraireie Apache Maven. Ces tests se trouvent dans le fichier "ApiTest.java" qui se trouve dans le dossier "src/test/java". Nous avons fait en tout 67 fonctions de test pour les différentes fonctions de notre API, en testant à la fois les cas de réussite et les cas d'échec. Et voici les résultats de ces tests :
+
+![Tests Results](Annexe/Tests.png)
 
 ## Remarque
 
