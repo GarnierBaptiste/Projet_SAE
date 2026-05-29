@@ -6,7 +6,7 @@ import io.vertx.ext.web.RoutingContext;
 import jakarta.persistence.EntityManager;
 
 /**
- * Handler d'ingestion (Ingress) pour les données de télémétrie issues d'éoliennes.
+ * Handler d'ingestion pour les données de télémétrie issues d'éoliennes.
  * Contrairement aux panneaux solaires, ce module traite un payload structuré en JSON
  * pour extraire la vitesse du vent et la puissance générée.
  */
@@ -111,12 +111,13 @@ public class WindTurbineHandler {
         Long maxId = result != null ? ((Number) result).longValue() : 0L;
     
         // Insertion en base du nouveau Datapoint (valeur = vitesse * puissance)
-        db.createNativeQuery("INSERT INTO datapoint (id, timestamp, value, type) VALUES (?, ?, ?, ?)")
-            .setParameter(1, maxId + 1)
-            .setParameter(2, timestamp)
-            .setParameter(3, speed * power)
-            .setParameter(4, 2)
-            .executeUpdate(); // Note : Pensez à vérifier si l'absence d'appel explicite à .executeUpdate() dans votre code initial n'empêchait pas l'écriture effective en base.
+        db.getTransaction().begin();
+        db.createNativeQuery("INSERT INTO datapoint (timestamp, value, measurement) VALUES (?, ?, ?)")
+            .setParameter(1, timestamp)
+            .setParameter(2, speed * power)
+            .setParameter(3, 5)
+            .executeUpdate();
+        db.getTransaction().commit();
 
         ctx.response().setStatusCode(201);
         ctx.json("success");

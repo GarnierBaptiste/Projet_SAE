@@ -7,6 +7,36 @@ https://github.com/GarnierBaptiste/Projet_SAE
 
 Nous avons crée ce dépot Github principalement pour le compte rendu, donc les commit ne montrent pas l'avancement de la réalisation du projet.
 
+## Table des matières
+
+- [Téléchargement nécessaire](#téléchargement-nécessaire)
+- [Utilisation de l'API](#utilisation-de-lapi)
+- [Partie Required](#partie-required)
+    - [Get : /grids List all grid IDs](#get--grids-list-all-grid-ids)
+    - [Get : /grid/{id} Get grid details](#get--gridid-get-grid-details)
+    - [Get : /persons List all person IDs](#get--persons-list-all-person-ids)
+    - [Get : /person/{id} Get person by IDs](#get--personid-get-person-by-ids)
+    - [Get : /measurement/{id} Get measurement definition](#get--measurementid-get-measurement-definition)
+- [Partie Medium](#partie-medium)
+    - [Put : /person Create a new person](#put--person-create-a-new-person)
+    - [Post : /person/{id} Update person-values](#post--personid-update-person-values)
+    - [Delete : /person/{id} Delete a person](#delete--personid-delete-a-person)
+    - [Get : /sensor/{kind} List sensors of a given kind](#get--sensorkind-list-sensors-of-a-given-kind)
+    - [Get : /producers List all producers](#get--producers-list-all-producers)
+    - [Get : /consumers List all consumers](#get--consumers-list-all-consumers)
+- [Partie Advanced](#partie-advanced)
+    - [Post : /ingress/windturbine Receive wind turbine measurement](#post--ingresswindturbine-receive-wind-turbine-measurement)
+    - [Post : /ingress/solarpanel Receive solar panel measurement](#post--ingresssolarpanel-receive-solar-panel-measurement)
+    - [Get : /sensor/{id} Get sensor detail](#get--sensorid-get-sensor-detail)
+    - [Post : /sensor/{id} Update a sensor](#post--sensorid-update-a-sensor)
+    - [Get : /measurements/{id}/values Get measurement values](#get--measurementsidvalues-get-measurement-values)
+- [Partie Hard](#partie-hard)
+    - [Get : /grid/{id}/production Get grid total production](#get--grididproduction-get-grid-total-production)
+    - [Get : /grid/{id}/consumption Get grid total consumption](#get--grididconsumption-get-grid-total-consumption)
+- [Tests automatiques](#tests-automatiques)
+- [Remarque](#remarque)
+- [Utilisation de l'IA](#utilisation-de-lia)
+
 ## Téléchargement nécessaire
 
 Avant de pouvoir tester notre code, il est nécessaire de télécharger 3 éléments : 
@@ -22,7 +52,7 @@ Si on utilise l'IDE VSCode il est aussi recommandé de télécharger les extensi
 
 ## Utilisation de l'API
 
-Pour tester notre code il faut dans un premier temps ouvrir Docker Dekstop et lancé la commande "docker compose up -d" au niveau de la racine du projet. Qaund les conteneurs se sont initialisée/démarré, on doit lancer le fichier "VertxServer.java" qui se trouve dans le dossier "src/main/java". Après cela, l'API est opérationnelle et on peut faire les différentes requêtes pour tester les différentes fonctions de l'API. Elle est disponible à l'adresse web suivant : https://hub.imt-atlantique.fr/ueinfo-fise1a/s6/project/session4/projet/index.html.
+Pour tester notre code il faut dans un premier temps ouvrir Docker Dekstop et lancé la commande `docker compose up -d` au niveau de la racine du projet. Qaund les conteneurs se sont initialisée/démarré, on doit lancer le fichier "VertxServer.java" qui se trouve dans le dossier "src/main/java". Après cela, l'API est opérationnelle et on peut faire les différentes requêtes pour tester les différentes fonctions de l'API. Elle est disponible à l'adresse web suivant : https://hub.imt-atlantique.fr/ueinfo-fise1a/s6/project/session4/projet/index.html.
 
 Pour voir les données de la base de données, on peut se rendre à l'adresse web suivante : http://localhost:8082/ dans laquelle on pourra observer les différents utilisateurs ainsi que tous les sensors (producteurs comme consommateurs) et les données de l'unique grid du projet. On peut aussi créer, sur cette page, un nouvel utilisateur auquel on pourra lier les différents sensors comme nous le souhaitons.
 
@@ -295,6 +325,8 @@ Ce que la fonction est censée nous renvoyer en mettant  en paramètre l'id à 1
 Nous avons réalisé des tests automatiques pour les différentes fonctions de notre API, en utilisant la librairie RestAssured ainsi que la librairie Apache Maven. Ces tests se trouvent dans le fichier "ApiTest.java" qui se trouve dans le dossier "src/test/java". Nous avons fait en tout 67 fonctions de test pour les différentes fonctions de notre API, en testant à la fois les cas de réussite et les cas d'échec. Et voici les résultats de ces tests :
 
 ![Tests Results](Annexe/Test.png)
+
+Pour réaliser les tests, nous devons faire la commande suivante dans un terminal à la racine du projet : `mvn test -Dtest=ApiTest`. Cette commande va lancer tous les tests présents dans le fichier "ApiTest.java" et nous afficher combien de tests sont effectués et combien d'entre eux ont échoué.
 
 ## Remarque
 
